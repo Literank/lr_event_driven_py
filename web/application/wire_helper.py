@@ -9,7 +9,7 @@ class WireHelper:
 
     @classmethod
     def new(cls, c: Config):
-        db = MySQLPersistence(c.db)
+        db = MySQLPersistence(c.db, c.app.page_size)
         return cls(db)
 
     def book_manager(self) -> BookManager:

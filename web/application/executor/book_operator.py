@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 from .. import dto
 from ...domain.model import Book
@@ -15,3 +16,6 @@ class BookOperator():
         id = self.book_manager.create_book(book)
         book.id = id
         return book
+
+    def get_books(self, offset: int, query: str) -> List[Book]:
+        return self.book_manager.get_books(offset, query)
