@@ -3,7 +3,7 @@ from typing import Any, List
 import mysql.connector
 
 from ...domain.gateway import BookManager
-from ...domain.model import Book
+from ....domain.model import Book
 from ..config import DBConfig
 
 

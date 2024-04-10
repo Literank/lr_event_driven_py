@@ -4,7 +4,7 @@ import json
 from typing import Dict, List
 
 from .. import dto
-from ...domain.model import Book
+from ....domain.model import Book
 from ...domain.gateway import BookManager
 from ...infrastructure.mq import MQHelper
 

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from ..model import Book
+from ....domain.model import Book
 
 
 class BookManager(ABC):

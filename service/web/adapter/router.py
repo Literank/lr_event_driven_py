@@ -6,7 +6,7 @@ from fastapi.templating import Jinja2Templates
 
 from ..application.executor import BookOperator
 from ..application import WireHelper, dto
-from ..domain.model import Book
+from ...domain.model import Book
 
 
 class RestHandler:

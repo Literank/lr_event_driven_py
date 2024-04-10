@@ -1,7 +1,7 @@
 app:
   port: 8000
   page_size: 5
-  templates_dir: "web/adapter/templates/"
+  templates_dir: "service/web/adapter/templates/"
 db:
   host: 127.0.0.1
   port: 3306
