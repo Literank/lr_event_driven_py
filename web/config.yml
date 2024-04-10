@@ -8,3 +8,7 @@ db:
   user: "test_user"
   password: "test_pass"
   database: "lr_event_book"
+mq:
+  brokers:
+    - localhost:9094
+  topic: "lr-book-searches"

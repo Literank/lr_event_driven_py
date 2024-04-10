@@ -33,7 +33,8 @@ class RestHandler:
 def make_router(app: FastAPI, templates_dir: str, wire_helper: WireHelper):
     rest_handler = RestHandler(
         logging.getLogger("lr-event"),
-        BookOperator(wire_helper.book_manager())
+        BookOperator(wire_helper.book_manager(),
+                     wire_helper.message_queue_helper())
     )
 
     templates = Jinja2Templates(directory=templates_dir)
