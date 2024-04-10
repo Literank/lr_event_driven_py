@@ -11,9 +11,9 @@ class RestHandler:
         self._logger = logger
         self.trend_operator = trend_operator
 
-    def get_trends(self, offset: int):
+    def get_trends(self, page_size: int):
         try:
-            return self.trend_operator.top_trends(offset)
+            return self.trend_operator.top_trends(page_size)
         except Exception as e:
             self._logger.error(f"Failed to get trends: {e}")
             raise HTTPException(status_code=404, detail="Failed to get trends")
@@ -26,5 +26,5 @@ def make_router(app: FastAPI, wire_helper: WireHelper):
     )
 
     @app.get("/trends")
-    async def get_trends(o: int = 0):
-        return rest_handler.get_trends(o)
+    async def get_trends(ps: int = 10):
+        return rest_handler.get_trends(ps)

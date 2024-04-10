@@ -29,13 +29,13 @@ class RedisCache(TrendManager):
         self.c.set(k, results)
         return score
 
-    def top_trends(self, offset: int) -> List[Trend]:
+    def top_trends(self, page_size: int) -> List[Trend]:
         top_items: Any = self.c.zrevrange(
-            trends_key, 0, offset, withscores=True)
+            trends_key, 0, page_size - 1, withscores=True)
         trends = []
         for item in top_items:
             query = item[0]
-            t = Trend(query=query, books=[], created_at=None)
+            t = Trend(query=query, books=[])
             k = query_key_prefix + query
             value: Any = self.c.get(k)
             if value is not None:

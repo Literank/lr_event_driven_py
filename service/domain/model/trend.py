@@ -9,4 +9,3 @@ from .book import Book
 class Trend:
     query: str
     books: List[Book]
-    created_at: datetime | None

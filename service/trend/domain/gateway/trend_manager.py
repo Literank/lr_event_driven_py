@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import Callable, List
 
 from ....domain.model import Trend
+
+ConsumeCallback = Callable[[bytes, bytes], None]
 
 
 class TrendManager(ABC):
@@ -10,5 +12,15 @@ class TrendManager(ABC):
         pass
 
     @abstractmethod
-    def top_trends(self, offset: int) -> List[Trend]:
+    def top_trends(self, page_size: int) -> List[Trend]:
+        pass
+
+
+class TrendEventConsumer(ABC):
+    @abstractmethod
+    def consume_events(self, callback: ConsumeCallback):
+        pass
+
+    @abstractmethod
+    def stop(self):
         pass
