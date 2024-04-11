@@ -1,7 +1,8 @@
 import json
 
 from ....domain.model import Trend
-from ...domain.gateway import TrendManager, TrendEventConsumer
+from ...domain.gateway import TrendManager
+from ....domain.gateway import TrendEventConsumer
 
 
 class TrendConsumer():

@@ -1,7 +1,8 @@
-from ..domain.gateway import TrendManager, TrendEventConsumer
+from ..domain.gateway import TrendManager
+from ...domain.gateway import TrendEventConsumer
 from ..infrastructure.config import Config
 from ..infrastructure.cache import RedisCache
-from ..infrastructure.mq import KafkaConsumer
+from ...infrastructure.mq import KafkaConsumer
 
 
 class WireHelper:

@@ -7,3 +7,4 @@ mq:
   brokers:
     - localhost:9094
   topic: lr-book-searches
+  group_id: trend-svr

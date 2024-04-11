@@ -8,6 +8,7 @@ import yaml
 class MQConfig:
     brokers: List[str]
     topic: str
+    group_id: str
 
 
 @dataclass

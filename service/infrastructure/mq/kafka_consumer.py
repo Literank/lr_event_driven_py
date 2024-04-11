@@ -6,14 +6,11 @@ from confluent_kafka import Consumer, KafkaException
 from ...domain.gateway import TrendEventConsumer, ConsumeCallback
 
 
-GROUP_ID = "trend-svr"
-
-
 class KafkaConsumer(TrendEventConsumer):
-    def __init__(self, brokers: List[str], topic: str):
+    def __init__(self, brokers: List[str], topic: str, group_id: str):
         self.consumer = Consumer(
             {'bootstrap.servers': ','.join(brokers),
-             'group.id': GROUP_ID,
+             'group.id': group_id,
              'auto.offset.reset': 'smallest'})
         self.topic = topic
         self.running = False

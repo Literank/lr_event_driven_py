@@ -1,1 +1,1 @@
-from .trend_manager import TrendManager, TrendEventConsumer, ConsumeCallback
+from .trend_manager import TrendManager
