@@ -23,13 +23,14 @@ class BookOperator():
         book.id = id
         return book
 
-    def get_books(self, offset: int, query: str) -> List[Book]:
+    def get_books(self, offset: int, user_id: str, query: str) -> List[Book]:
         books = self.book_manager.get_books(offset, query)
-        # Send search query and its results
+        # Send a user's search query and its results
         if query:
+            k = query + ':' + user_id
             json_data = json.dumps([_convert(b)
                                    for b in books]).encode('utf-8')
-            self.mq_helper.send_event(query, json_data)
+            self.mq_helper.send_event(k, json_data)
         return books
 
     def get_trends(self, trend_url: str) -> List[Trend]:
