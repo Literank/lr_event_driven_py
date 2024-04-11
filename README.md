@@ -2,7 +2,7 @@
 
 Example project: building event driven microservices in Python.
 
-![Event Queue](diagrams/queue2.svg)
+![Event Queue](https://raw.githubusercontent.com/Literank/lr_event_driven_go/main/diagrams/queue2.svg)
 
 See [project tutorial](https://www.literank.com/project/19/intro) here.
 
