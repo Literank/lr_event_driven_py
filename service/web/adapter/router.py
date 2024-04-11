@@ -7,11 +7,13 @@ from fastapi.templating import Jinja2Templates
 from ..application.executor import BookOperator
 from ..application import WireHelper, dto
 from ...domain.model import Book
+from ..infrastructure.config.config import RemoteServiceConfig
 
 
 class RestHandler:
-    def __init__(self, logger: logging.Logger, book_operator: BookOperator):
+    def __init__(self, logger: logging.Logger, remote: RemoteServiceConfig, book_operator: BookOperator):
         self._logger = logger
+        self.remote = remote
         self.book_operator = book_operator
 
     def create_book(self, b: dto.Book):
@@ -30,9 +32,10 @@ class RestHandler:
             raise HTTPException(status_code=404, detail="Failed to get books")
 
 
-def make_router(app: FastAPI, templates_dir: str, wire_helper: WireHelper):
+def make_router(app: FastAPI, templates_dir: str, remote: RemoteServiceConfig, wire_helper: WireHelper):
     rest_handler = RestHandler(
         logging.getLogger("lr-event"),
+        remote,
         BookOperator(wire_helper.book_manager(),
                      wire_helper.message_queue_helper())
     )
@@ -42,11 +45,14 @@ def make_router(app: FastAPI, templates_dir: str, wire_helper: WireHelper):
     @app.get("/", response_class=HTMLResponse)
     async def index_page(request: Request, q: str = ""):
         books = rest_handler.book_operator.get_books(0, q)
+        trends = rest_handler.book_operator.get_trends(
+            rest_handler.remote.trend_url)
         return templates.TemplateResponse(
             name="index.html", context={
                 "request": request,
                 "title": "LiteRank Book Store",
                 "books": books,
+                "trends": trends,
                 "q": q,
             }
         )

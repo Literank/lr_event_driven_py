@@ -1,1 +1,1 @@
-from .config import Config, DBConfig, parseConfig
+from .config import Config, DBConfig, RemoteServiceConfig, parseConfig

@@ -9,4 +9,4 @@ CONFIG_FILENAME = "service/web/config.yml"
 c = parseConfig(CONFIG_FILENAME)
 wire_helper = WireHelper.new(c)
 app = FastAPI()
-make_router(app, c.app.templates_dir, wire_helper)
+make_router(app, c.app.templates_dir, c.remote, wire_helper)

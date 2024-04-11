@@ -38,17 +38,19 @@
         <!-- Trends Section -->
         <div class="mb-8">
             <h2 class="text-2xl font-bold mb-4">Trends</h2>
-            <div class="grid grid-cols-3 gap-4">
-                <!-- Trend items can be dynamically generated here -->
-                <div class="bg-white p-4 rounded-md border-gray-300 shadow">
-                    Book 1
+            <div class="grid grid-cols-5 gap-2">
+            {% for trend in trends %}
+                <div class="bg-white p-4 rounded-md border-gray-300 shadow mt-2">
+                    <div>#<b><a href="/?q={{trend.query}}">{{trend.query}}</a></b></div>
+                    {% for book in trend.books %}
+                        <div class="font-serif border-t py-1 mt-1">
+                            {{book.title}}
+                            <span class="italic text-sm text-gray-500">by</span>
+                            <span class="font-mono italic text-sm">{{book.author}}</span>
+                        </div>
+                    {% endfor %}
                 </div>
-                <div class="bg-white p-4 rounded-md border-gray-300 shadow">
-                    Book 2
-                </div>
-                <div class="bg-white p-4 rounded-md border-gray-300 shadow">
-                    Book 3
-                </div>
+            {% endfor %}
             </div>
         </div>
 

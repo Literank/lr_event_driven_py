@@ -26,10 +26,16 @@ class ApplicationConfig:
 
 
 @dataclass
+class RemoteServiceConfig:
+    trend_url: str
+
+
+@dataclass
 class Config:
     app: ApplicationConfig
     db: DBConfig
     mq: MQConfig
+    remote: RemoteServiceConfig
 
 
 def parseConfig(filename: str) -> Config:
@@ -38,5 +44,6 @@ def parseConfig(filename: str) -> Config:
         return Config(
             ApplicationConfig(**data['app']),
             DBConfig(**data['db']),
-            MQConfig(**data['mq'])
+            MQConfig(**data['mq']),
+            RemoteServiceConfig(**data['remote'])
         )

@@ -2,9 +2,11 @@ from dataclasses import asdict
 from datetime import datetime
 import json
 from typing import Dict, List
+import urllib.request
+
 
 from .. import dto
-from ....domain.model import Book
+from ....domain.model import Book, Trend
 from ...domain.gateway import BookManager
 from ...infrastructure.mq import MQHelper
 
@@ -29,6 +31,11 @@ class BookOperator():
                                    for b in books]).encode('utf-8')
             self.mq_helper.send_event(query, json_data)
         return books
+
+    def get_trends(self, trend_url: str) -> List[Trend]:
+        with urllib.request.urlopen(trend_url) as response:
+            data = response.read()
+            return json.loads(data.decode('utf-8'))
 
 
 def _convert(b: Book) -> Dict:
