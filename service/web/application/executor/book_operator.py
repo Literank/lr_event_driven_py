@@ -6,7 +6,7 @@ import urllib.request
 
 
 from .. import dto
-from ....domain.model import Book, Trend
+from ....domain.model import Book, Trend, Interest
 from ...domain.gateway import BookManager
 from ...infrastructure.mq import MQHelper
 
@@ -37,6 +37,10 @@ class BookOperator():
         with urllib.request.urlopen(trend_url) as response:
             data = response.read()
             return json.loads(data.decode('utf-8'))
+
+    def get_interests(self, interests_url: str) -> List[Interest]:
+        with urllib.request.urlopen(interests_url) as response:
+            return json.loads(response.read().decode('utf-8'))
 
 
 def _convert(b: Book) -> Dict:

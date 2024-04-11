@@ -28,6 +28,7 @@ class ApplicationConfig:
 @dataclass
 class RemoteServiceConfig:
     trend_url: str
+    rec_url: str
 
 
 @dataclass

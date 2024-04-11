@@ -67,12 +67,19 @@ def make_router(app: FastAPI, templates_dir: str, remote: RemoteServiceConfig, w
         except Exception as e:
             rest_handler._logger.warn(f"Failed to get trends: {e}")
             trends = []
+        try:
+            interests = rest_handler.book_operator.get_interests(
+                rest_handler.remote.rec_url + user_id)
+        except Exception as e:
+            rest_handler._logger.warn(f"Failed to get interests: {e}")
+            interests = []
         resp = templates.TemplateResponse(
             name="index.html", context={
                 "request": request,
                 "title": "LiteRank Book Store",
                 "books": books,
                 "trends": trends,
+                "recommendations": interests,
                 "q": q,
             }
         )

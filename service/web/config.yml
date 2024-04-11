@@ -14,3 +14,4 @@ mq:
   topic: "lr-book-searches"
 remote:
   trend_url: "http://localhost:8001/trends"
+  rec_url: "http://localhost:8002/recommendations?uid="
