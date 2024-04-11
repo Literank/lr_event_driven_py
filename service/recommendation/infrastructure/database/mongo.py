@@ -28,6 +28,8 @@ class MongoPersistence(InterestManager):
 
     def list_interests(self, user_id: str) -> List[Interest]:
         filter_query = {"user_id": user_id}
-        cursor = self.coll.find(filter_query).sort(
+        # Exclude the _id field from the result
+        projection = {"_id": 0}
+        cursor = self.coll.find(filter_query, projection).sort(
             "score", DESCENDING).limit(self.page_size)
         return list(cursor)
