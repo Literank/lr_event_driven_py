@@ -1,0 +1,10 @@
+app:
+  page_size: 10
+db:
+  mongo_uri: "mongodb://mongo:27017"
+  mongo_db_name: lr_event_rec
+mq:
+  brokers:
+    - kafka:9092
+  topic: lr-book-searches
+  group_id: rec-svr

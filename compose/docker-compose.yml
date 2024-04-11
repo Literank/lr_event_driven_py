@@ -1,0 +1,101 @@
+services:
+  lr-event-books-web-py:
+    build:
+      context: ../
+      dockerfile: service/web/Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./config-web.yml:/app/service/web/config.yml
+    depends_on:
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+  lr-event-books-trend-py:
+    build:
+      context: ../
+      dockerfile: service/trend/Dockerfile
+    ports:
+      - 8001:8001
+    volumes:
+      - ./config-trend.yml:/app/service/trend/config.yml
+    depends_on:
+      redis:
+        condition: service_started
+      kafka:
+        condition: service_healthy
+  lr-event-books-rec-py:
+    build:
+      context: ../
+      dockerfile: service/recommendation/Dockerfile
+    ports:
+      - 8002:8002
+    volumes:
+      - ./config-rec.yml:/app/service/recommendation/config.yml
+    depends_on:
+      mongo:
+        condition: service_started
+      kafka:
+        condition: service_healthy
+  redis:
+    image: docker.io/bitnami/redis:7.0
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    ports:
+      - 6379:6379
+  mysql:
+    image: docker.io/bitnami/mysql:5.7.43
+    environment:
+      - MYSQL_DATABASE=lr_book
+      - MYSQL_USER=test_user
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - 3306:3306
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p$MYSQL_ROOT_PASSWORD",
+        ]
+      timeout: 20s
+      retries: 10
+    volumes:
+      - ~/lr-mysql-data:/bitnami/mysql/data
+  mongo:
+    image: bitnami/mongodb:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/lr-mongodb-data:/bitnami/mongodb
+  kafka:
+    image: bitnami/kafka:latest
+    environment:
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+    ports:
+      - 9092:9092
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "kafka-topics.sh --list --bootstrap-server localhost:9092",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3

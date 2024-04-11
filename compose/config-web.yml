@@ -1,0 +1,16 @@
+app:
+  page_size: 5
+  templates_dir: "service/web/adapter/templates/"
+db:
+  host: mysql
+  port: 3306
+  user: test_user
+  password: test_pass
+  database: lr_event_book
+mq:
+  brokers:
+    - kafka:9092
+  topic: lr-book-searches
+remote:
+  trend_url: "http://lr-event-books-trend-py:8001/trends"
+  rec_url: "http://lr-event-books-rec-py:8002/recommendations?uid="
