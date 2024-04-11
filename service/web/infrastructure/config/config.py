@@ -20,7 +20,6 @@ class MQConfig:
 
 @dataclass
 class ApplicationConfig:
-    port: int
     page_size: int
     templates_dir: str
 
