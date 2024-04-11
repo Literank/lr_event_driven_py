@@ -13,7 +13,9 @@ class TrendConsumer():
 
     def start(self):
         def process_event(key: bytes, data: bytes):
-            t = Trend(query=key.decode('utf-8'), books=json.loads(data))
+            parts = key.decode('utf-8').split(':')
+            query = parts[0]
+            t = Trend(query=query, books=json.loads(data))
             self.trend_manager.create_trend(t)
 
         self.event_consumer.consume_events(process_event)

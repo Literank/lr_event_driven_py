@@ -14,7 +14,7 @@ class WireHelper:
     def new(cls, c: Config):
         kv = RedisCache(c.cache.host, c.cache.port,
                         c.cache.password, c.cache.db)
-        consumer = KafkaConsumer(c.mq.brokers, c.mq.topic)
+        consumer = KafkaConsumer(c.mq.brokers, c.mq.topic, c.mq.group_id)
         return cls(kv, consumer)
 
     def trend_manager(self) -> TrendManager:
